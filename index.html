@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بطاقة عيد الأضحى</title>
+
+  <!-- Tambah Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #474D67;
+      font-family: 'Noto Sans Arabic', sans-serif;
+      text-align: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      max-width: 100%;
+      overflow-x: hidden;
+      direction: rtl;
+    }
+    .header {
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      width: 100%;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px 10px 0 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    .container {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 120px 20px 40px;
+      width: 100%;
+    }
+    .title {
+      font-size: 26px;
+      font-weight: bold;
+      color: #FFD700;
+      margin-bottom: 30px;
+    }
+    input[type="text"] {
+      padding: 12px;
+      width: 70%;
+      max-width: 300px;
+      border-radius: 50px;
+      border: 2px solid #FFD700;
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      text-align: right;
+      font-family: 'Noto Sans Arabic', sans-serif;
+    }
+    canvas {
+      background: #fff;
+      width: 70%;
+      max-width: 250px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      background: #FFD700;
+      color: #333;
+      border: none;
+      padding: 12px 20px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      font-family: 'Noto Sans Arabic', sans-serif;
+    }
+    button:hover {
+      background-color: #ffcc00;
+    }
+    .footer {
+      background: #333;
+      color: white;
+      width: 100%;
+      padding: 15px;
+      font-size: 14px;
+      text-align: center;
+      border-radius: 0 0 10px 10px;
+      margin-top: auto;
+    }
+    .logo {
+      width: 120px;
+      height: auto;
+    }
+    @media screen and (max-width: 600px) {
+      input[type="text"], canvas {
+        width: 80%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="logo.png" alt="الشعار" class="logo" />
+  </div>
+  <div class="container">
+    <div class="title">بطاقة تهنئة بعيد الأضحى المبارك</div>
+    <input type="text" id="name" placeholder="اكتب اسمك هنا" oninput="updateCanvas()" />
+    <canvas id="canvas"></canvas>
+    <button onclick="downloadImage()">تحميل البطاقة</button>
+  </div>
+  <div class="footer">
+    <p>&copy; 2025 فريق الإبداع - BKHR</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let img = new Image();
+
+    img.onload = function () {
+      canvas.width = img.width / 4;
+      canvas.height = img.height / 4;
+      updateCanvas();
+    }
+
+    img.onerror = function () {
+      alert("تعذر تحميل صورة البطاقة. تأكد من وجود الملف eidcard.jpg.");
+    }
+
+    img.src = "eidcard.jpg";
+
+    function updateCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      const name = document.getElementById('name').value;
+      if (name) {
+        ctx.font = `${Math.floor(canvas.width / 12)}px 'Noto Sans Arabic'`;
+        ctx.fillStyle = "red";
+        ctx.textAlign = "center";
+        ctx.fillText(name, canvas.width / , canvas.height 30);
+      }
+    }
+
+    function downloadImage() {
+      const link = document.createElement('a');
+      link.download = 'بطاقة-عيد-الأضحى.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>
